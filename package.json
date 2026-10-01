@@ -1,0 +1,15 @@
+{
+  "name": "bela-dent",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Sitio multipagina para Bela Dent, clinica dental de la C.D. Tania Duran Valenzuela en Metepec.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}

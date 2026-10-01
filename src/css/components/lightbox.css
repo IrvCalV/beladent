@@ -1,0 +1,189 @@
+/*
+  Pairs with src/js/components/treatment-lightbox.js. Un solo modal
+  compartido por pagina: el JS rellena texto/imagenes desde los
+  data-* de la tarjeta que se hizo clic. Las dos imagenes (tratamiento +
+  detalle de la clinica) estan superpuestas y se cruzan por opacidad al
+  cambiar de slide -- no hay libreria de carrusel.
+*/
+.service-modal {
+  /* Empieza debajo del nav (en vez de inset:0) para que el nav nunca
+     tape el panel ni su boton de cerrar, y para que el modal no
+     necesite "ganarle" al nav en z-index -- cada uno vive en su propia
+     franja de la pantalla, sin pisarse. --nav-height la define nav.js
+     con la altura real medida del nav. */
+  position: fixed;
+  top: var(--nav-height, 72px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  background: rgba(18, 56, 50, 0.72);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease;
+}
+
+.service-modal[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.service-modal-panel {
+  position: relative;
+  width: min(820px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  transform: translateY(16px);
+  transition: transform 0.25s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.service-modal[data-open='true'] .service-modal-panel {
+  transform: translateY(0);
+}
+
+.service-modal-close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--ink);
+  box-shadow: 0 8px 20px -8px rgba(18, 56, 50, 0.4);
+}
+
+.service-modal-close:hover,
+.service-modal-close:focus-visible {
+  background: var(--accent);
+  color: #fff;
+}
+
+.service-modal-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--surface-alt);
+}
+
+.service-modal-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.service-modal-slide.is-active {
+  opacity: 1;
+}
+
+.service-modal-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.service-modal-caption {
+  position: absolute;
+  left: var(--space-md);
+  bottom: var(--space-md);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(18, 56, 50, 0.55);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.service-modal-dots {
+  position: absolute;
+  right: var(--space-md);
+  bottom: var(--space-md);
+  display: flex;
+  gap: 8px;
+}
+
+.service-modal-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.service-modal-dot.is-active {
+  background: #fff;
+}
+
+.service-modal-body {
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.service-modal-eyebrow {
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+
+.service-modal-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-3xl);
+}
+
+.service-modal-meta {
+  font-size: var(--text-lg);
+  color: var(--ink-soft);
+}
+
+.service-modal-desc {
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-top: var(--space-xs);
+}
+
+.service-modal-cta {
+  margin-top: var(--space-md);
+  align-self: flex-start;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 720px) {
+  .service-modal-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .service-modal-media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .service-modal-body {
+    padding: var(--space-lg) var(--space-md);
+  }
+}
